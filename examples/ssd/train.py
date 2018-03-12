@@ -34,8 +34,8 @@ args = parser.parse_args()
 # Model
 print('==> Building model..')
 # net = SSD512(num_classes=21)
-net = FPNSSD512(num_classes=21)
-net.load_state_dict(torch.load(args.model))
+net = FPNSSD512(num_classes=81)
+# net.load_state_dict(torch.load(args.model))
 best_loss = float('inf')  # best test loss
 start_epoch = 0  # start from epoch 0 or last epoch
 if args.resume:
@@ -63,9 +63,8 @@ def transform_train(img, boxes, labels):
     boxes, labels = box_coder.encode(boxes, labels)
     return img, boxes, labels
 
-trainset = ListDataset(root='/search/odin/liukuang/data/voc_all_images',
-                       list_file=['torchcv/datasets/voc/voc07_trainval.txt',
-                                  'torchcv/datasets/voc/voc12_trainval.txt'],
+trainset = ListDataset(root='data/coco/images/train2017',
+                       list_file=['torchcv/datasets/mscoco/coco17_train.txt',],
                        transform=transform_train)
 
 def transform_test(img, boxes, labels):
